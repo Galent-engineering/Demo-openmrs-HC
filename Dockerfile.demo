@@ -1,0 +1,33 @@
+# Demo Dockerfile for CI/CD demonstration
+# Extends the official OpenMRS Reference Application with custom modifications
+
+FROM openmrs/openmrs-reference-application-3-backend:qa
+
+USER root
+
+# Add custom branding or configuration that can be modified for CI/CD demo
+# This file can be changed to trigger CI/CD pipeline
+COPY custom-config.properties /openmrs/custom-config.properties
+
+# Add pre-configured runtime properties to skip setup wizard
+# This tells OpenMRS that initialization is complete
+COPY openmrs-runtime.properties /openmrs/data/openmrs-runtime.properties
+
+# Add build version page that is accessible via web browser
+COPY build-version.html /openmrs/distribution/openmrs_core/build-version.html
+
+# Add a version file that shows when this was built (for demo purposes)
+RUN echo "Build Date: $(date)" > /openmrs/build-info.txt && \
+    echo "Custom Build Version: 2.0.0-CI/CD-TEST" >> /openmrs/build-info.txt && \
+    echo "==================================" >> /openmrs/build-info.txt && \
+    echo "CI/CD PIPELINE DEPLOYMENT SUCCESS!" >> /openmrs/build-info.txt && \
+    echo "==================================" >> /openmrs/build-info.txt && \
+    chown -R 1001:0 /openmrs/data && \
+    chmod -R 775 /openmrs/data
+
+# You can add custom modules, configurations, or modifications here
+# For example: COPY custom-modules/*.omod /openmrs/distribution/openmrs_modules/
+
+USER 1001
+
+# The rest inherits from the base image
