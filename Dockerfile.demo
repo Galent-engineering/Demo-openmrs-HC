@@ -13,10 +13,6 @@ COPY custom-config.properties /openmrs/custom-config.properties
 # This tells OpenMRS that initialization is complete
 COPY openmrs-runtime.properties /openmrs/data/openmrs-runtime.properties
 
-# Add build version page accessible via web
-# Place it in the openmrs webapp root directory
-COPY build-version.html /openmrs/distribution/openmrs_war/build-version.html
-
 # Add a version file that shows when this was built (for demo purposes)
 RUN echo "Build Date: $(date)" > /openmrs/build-info.txt && \
     echo "Custom Build Version: 3.0.0-PIPELINE-VERIFIED" >> /openmrs/build-info.txt && \
